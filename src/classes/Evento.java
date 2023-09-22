@@ -1,44 +1,87 @@
 package classes;
 
 public abstract class Evento {
-    String nomeEvento, dataEvento, localEvento;
-    int qtdIngresso;
 
-    public Evento() {
+    private String nome;
+    private String data;
+    private String horario;
+    private int ingressoInteira;
+    private int ingressoMeia;
+
+    Evento(String nome, String data, String horario, int ingressoInteira, int ingressoMeia ) {
+        this.nome = nome;
+        this.data = data;
+        this.horario = horario;
+        this.ingressoInteira = ingressoInteira;
+        this.ingressoMeia = ingressoMeia;
     }
 
-    public String getNomeEvento() {
-        return this.nomeEvento;
+    public String getNome() {
+        return this.nome;
     }
 
-    public void setNomeEvento(String nomeEvento) {
-        this.nomeEvento = nomeEvento;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getDataEvento() {
-        return this.dataEvento;
+    public String getData() {
+        return this.data;
     }
 
-    public void setDataEvento(String dataEvento) {
-        this.dataEvento = dataEvento;
+    public void setData(String data) {
+        this.data = data;
     }
 
-    public String getLocalEvento() {
-        return this.localEvento;
+    public String getHorario() {
+        return this.horario;
     }
 
-    public void setLocalEvento(String localEvento) {
-        this.localEvento = localEvento;
+    public void setHorario(String horario) {
+        this.horario = horario;
     }
 
-    public int getQtdIngresso() {
-        return this.qtdIngresso;
+    public int getIngressoInteira() {
+        return this.ingressoInteira;
     }
 
-    public void setQtdIngresso(int qtdIngresso) {
-        this.qtdIngresso = qtdIngresso;
+    public void setIngressoInteira(int ingressoInteira) {
+        this.ingressoInteira = ingressoInteira;
+    }
+
+    public int getIngressoMeia() {
+        return this.ingressoMeia;
+    }
+
+    public void setIngressoMeia(int ingressoMeia) {
+        this.ingressoMeia = ingressoMeia;
     }
 
 
+    public boolean isIngressoDisponivel(TipoIng tipo, int quantidade) {
+        if (tipo == TipoIng.inteira) {
+            return ingressoInteira >= quantidade;
+        } else {
+            return ingressoMeia >= quantidade;
+        }
+    }
 
+
+    public double venderIngresso(TipoIng tipo, int quantidade) {
+        double valorTotal = 0;
+        if (isIngressoDisponivel(tipo, quantidade)) {
+            if (tipo == TipoIng.inteira) {
+                ingressoInteira -= quantidade;
+                valorTotal = quantidade * getPrecoInteira();
+            } else {
+                ingressoMeia -= quantidade;
+                valorTotal = quantidade * getPrecoMeia();
+            }
+        }
+        return valorTotal;
+    }
+
+    // Métodos pra puxar preço da inteira e meia
+    public abstract double getPrecoInteira();
+    public abstract double getPrecoMeia();
+>>>>>>> a4495cf20cc1b31194c04d8f661d69bc8248fa51
 }
