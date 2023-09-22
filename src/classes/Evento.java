@@ -1,14 +1,14 @@
 package classes;
 
-public abstract class Evento {
 
+public abstract class Evento {
     private String nome;
     private String data;
     private String horario;
     private int ingressoInteira;
     private int ingressoMeia;
 
-    Evento(String nome, String data, String horario, int ingressoInteira, int ingressoMeia ) {
+    public Evento(String nome, String data, String horario, int ingressoInteira, int ingressoMeia) {
         this.nome = nome;
         this.data = data;
         this.horario = horario;
@@ -56,20 +56,18 @@ public abstract class Evento {
         this.ingressoMeia = ingressoMeia;
     }
 
-
     public boolean isIngressoDisponivel(TipoIng tipo, int quantidade) {
-        if (tipo == TipoIng.inteira) {
+        if (tipo == TipoIng.INTEIRA) {
             return ingressoInteira >= quantidade;
         } else {
             return ingressoMeia >= quantidade;
         }
     }
 
-
     public double venderIngresso(TipoIng tipo, int quantidade) {
         double valorTotal = 0;
         if (isIngressoDisponivel(tipo, quantidade)) {
-            if (tipo == TipoIng.inteira) {
+            if (tipo == TipoIng.INTEIRA) {
                 ingressoInteira -= quantidade;
                 valorTotal = quantidade * getPrecoInteira();
             } else {
@@ -80,8 +78,11 @@ public abstract class Evento {
         return valorTotal;
     }
 
-    // Métodos pra puxar preço da inteira e meia
     public abstract double getPrecoInteira();
     public abstract double getPrecoMeia();
->>>>>>> a4495cf20cc1b31194c04d8f661d69bc8248fa51
 }
+
+
+
+
+
