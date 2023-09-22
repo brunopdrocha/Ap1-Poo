@@ -4,7 +4,7 @@ public class TipoIng {
     public boolean inteira;
     public boolean meia;
 
-    public TipoIng(boolean inteira,boolean meia){
+    public TipoIng(boolean inteira,bo meia){
         this.inteira = true;
         this.meia =false;
     }
