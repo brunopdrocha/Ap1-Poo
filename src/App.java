@@ -8,7 +8,7 @@ public class App {
         Evento evento = null; // Inicializa o objeto Evento como nulo
         TipoIng tipo = TipoIng.meia; // Inicializa o tipo de ingresso como Meia
         int qtd = 0; // Inicializa a quantidade como 0
-        double precoTotal = 0.0;
+
 
         Scanner leitor = new Scanner(System.in);
 
@@ -53,7 +53,7 @@ public class App {
                     leitor.nextLine();
 
                     if (evento.isIngressoDisponivel(tipo, qtd)) {
-                        precoTotal = evento.venderIngresso(tipo, qtd);
+                        double precoTotal = evento.venderIngresso(tipo, qtd);
                         System.out.println("informacoes do ingresso: ");
                         System.out.println("Preço total: " + evento.getPrecoTotal());
                         System.out.println("nome " + evento.getNome());
