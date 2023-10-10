@@ -10,7 +10,7 @@ public class App {
 
         while (true) { // Loop infinito para o menu principal
             System.out.println("1 - Ver evento");
-            System.out.println("2 - Comprar ingresso");
+            System.out.println("2 - Compra ingresso");
             System.out.println("3 - Cadastrar evento");
             System.out.println("4 - Qtd Ingressos disponíveis");
             System.out.println("5 - Última compra");
@@ -31,7 +31,7 @@ public class App {
                     System.out.println("1 - " + nomeEvento);
                     System.out.println("2 - " + dataEvento);
                     System.out.println("preco:");
-                    System.out.println("AQUI DEVERA APARECER O TIPO DO INGRESSO");
+                    System.out.println();
                     // Implemente a compra de ingressos aqui
                     break;
                 case 3:
