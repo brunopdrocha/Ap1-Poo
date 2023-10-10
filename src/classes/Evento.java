@@ -7,47 +7,61 @@ public abstract class Evento {
     private int ingressoInteira;
     private int ingressoMeia;
     private double precoCheio;
+    private double precoTotal;
+    private int tipoIngresso;
+
+    public int getTipoIngresso() {
+        return this.tipoIngresso;
+    }
+
+    public void setTipoIngresso(int tipoIngresso) {
+        this.tipoIngresso = tipoIngresso;
+    }
+
+    public double getPrecoTotal() {
+        return this.precoTotal;
+    }
+
+    public void setPrecoTotal(double precoTotal) {
+        this.precoTotal = precoTotal;
+    }
+
+    public Evento() {
+        super();
+    }
 
     public Evento(String nome, String data, String local, int ingressoInteira, int ingressoMeia, double precoCheio) {
         this.nome = nome;
         this.data = data;
+        this.local = local;
         this.ingressoInteira = ingressoInteira;
         this.ingressoMeia = ingressoMeia;
-        this.local = local;
         this.precoCheio = precoCheio;
     }
 
-    // Métodos
-
     public boolean isIngressoDisponivel(TipoIng tipo, int quantidade) {
-        if (tipo == TipoIng.inteira && quantidade >0) {
-            return true;
-        } else if (tipo == TipoIng.meia && quantidade >0) {
-            return true;
+        if (tipo == TipoIng.inteira) {
+            return this.ingressoInteira >= quantidade && quantidade > 0;
+        } else if (tipo == TipoIng.meia) {
+            return this.ingressoMeia >= quantidade && quantidade > 0;
         }
-        return false; // Retorna false se o tipo de ingresso não for reconhecido
+        return false; // Tipo de ingresso não reconhecido
     }
-    
-    //Corrigir vender Ingresso pois esta acumalando mais de 1 INGRESSO
+
     public double venderIngresso(TipoIng tipo, int quantidade) {
         double valorTotal = 0;
-        if (tipo == TipoIng.inteira) {
-            ingressoInteira -= quantidade;
-            valorTotal = quantidade * getPrecoCheio();
-        } else if (tipo == TipoIng.meia ) {
-            ingressoMeia -= quantidade;
-            valorTotal = quantidade * (getPrecoCheio() / 2); // Preço da meia é metade do preço cheio
+        if (tipo == TipoIng.inteira && isIngressoDisponivel(TipoIng.inteira, quantidade)) {
+            this.ingressoInteira -= quantidade;
+            valorTotal = quantidade * this.precoCheio;
+        } else if (tipo == TipoIng.meia && isIngressoDisponivel(TipoIng.meia, quantidade)) {
+            this.ingressoMeia -= quantidade;
+            valorTotal = quantidade * (this.precoCheio / 2);
         }
         return valorTotal;
     }
-    
-
-
-    // Getters e setters para nome, data, ingressoInteira, ingressoMeia...
-    
 
     public String getNome() {
-        return this.nome;
+        return nome;
     }
 
     public void setNome(String nome) {
@@ -55,7 +69,7 @@ public abstract class Evento {
     }
 
     public String getData() {
-        return this.data;
+        return data;
     }
 
     public void setData(String data) {
@@ -63,7 +77,7 @@ public abstract class Evento {
     }
 
     public String getLocal() {
-        return this.local;
+        return local;
     }
 
     public void setLocal(String local) {
@@ -71,7 +85,7 @@ public abstract class Evento {
     }
 
     public int getIngressoInteira() {
-        return this.ingressoInteira;
+        return ingressoInteira;
     }
 
     public void setIngressoInteira(int ingressoInteira) {
@@ -79,7 +93,7 @@ public abstract class Evento {
     }
 
     public int getIngressoMeia() {
-        return this.ingressoMeia;
+        return ingressoMeia;
     }
 
     public void setIngressoMeia(int ingressoMeia) {
@@ -87,11 +101,10 @@ public abstract class Evento {
     }
 
     public double getPrecoCheio() {
-        return this.precoCheio;
+        return precoCheio;
     }
 
     public void setPrecoCheio(double precoCheio) {
         this.precoCheio = precoCheio;
     }
-    
 }

@@ -2,7 +2,7 @@ package classes.subclasses;
 
 import classes.Evento;
 public class Exposicao extends Evento {
-    private int faixaEtariaMinima;
+    public int faixaEtariaMinima;
     private int duracaoDias;
     private boolean descontoSocial;
 
