@@ -7,24 +7,7 @@ public abstract class Evento {
     private int ingressoInteira;
     private int ingressoMeia;
     private double precoCheio;
-    private double precoTotal;
-    private int tipoIngresso;
 
-    public int getTipoIngresso() {
-        return this.tipoIngresso;
-    }
-
-    public void setTipoIngresso(int tipoIngresso) {
-        this.tipoIngresso = tipoIngresso;
-    }
-
-    public double getPrecoTotal() {
-        return this.precoTotal;
-    }
-
-    public void setPrecoTotal(double precoTotal) {
-        this.precoTotal = precoTotal;
-    }
 
     public Evento() {
         super();

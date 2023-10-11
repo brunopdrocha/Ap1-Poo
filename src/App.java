@@ -8,6 +8,8 @@ public class App {
         Evento evento = null; // Inicializa o objeto Evento como nulo
         TipoIng tipo = TipoIng.meia; // Inicializa o tipo de ingresso como Meia
         int qtd = 0; // Inicializa a quantidade como 0
+        double precoTotal = 0.0;
+
 
 
         Scanner leitor = new Scanner(System.in);
@@ -53,14 +55,14 @@ public class App {
                     leitor.nextLine();
 
                     if (evento.isIngressoDisponivel(tipo, qtd)) {
-                        double precoTotal = evento.venderIngresso(tipo, qtd);
+                        precoTotal = evento.venderIngresso(tipo, qtd);
                         System.out.println("informacoes do ingresso: ");
-                        System.out.println("Preço total: " + evento.getPrecoTotal());
+                        System.out.println("Preço total: " + precoTotal);
                         System.out.println("nome " + evento.getNome());
                         System.out.println("data " + evento.getData());
                         System.out.println("local " + evento.getLocal());
                         System.out.println("quantidade de ingresso(s) " + qtd);
-                        System.out.println(evento.getTipoIngresso());
+                        System.out.println(tipoIngresso);
                     } else {
                         System.out.println("Ingressos não disponíveis em quantidade suficiente.");
                     }
@@ -98,18 +100,14 @@ public class App {
                 case 5:
                     System.out.println("Informacao da ultima compra ");
                     System.out.println("informacoes do ingresso:");
-                    System.out.println("Preço total: " + evento.getPrecoTotal());
+                    System.out.println("Preço total: " + precoTotal);
                     System.out.println("nome " + evento.getNome());
                     System.out.println("data " + evento.getData());
                     System.out.println("local " + evento.getLocal());
                     System.out.println("quantidade de ingresso(s) " + qtd);
+                    System.out.println("tipo ingresso " + tipo);
 
-                    if (evento.getTipoIngresso() == 1) {
-                        System.out.println("Inteira");
-
-                    } else {
-                        System.out.println("Meia");
-                    }
+                 
 
                     break;
 
