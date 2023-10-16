@@ -6,7 +6,7 @@ public abstract class Evento {
     private String local;
     private int ingressoInteira;
     private int ingressoMeia;
-    private double precoCheio;
+    protected double precoCheio;
 
 
     public Evento() {
