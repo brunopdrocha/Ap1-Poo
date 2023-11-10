@@ -39,9 +39,6 @@ public class Cli {
                 case 11:
                     ingresso = venderIngresso(evento, leitor);
                     break;
-                case 12:
-                    exibirIngresso(ingresso);
-                    break;
                 default:
                     leitor.close();
                     System.out.println("Volte sempre!");
