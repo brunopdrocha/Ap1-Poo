@@ -31,6 +31,19 @@ public abstract class Evento {
         return this.ingressosInteira + this.ingressosMeia;
     }
 
+   
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+
+
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
+    
     public boolean isIngressoDisponivel(TipoIngresso tipo, int quantidade) {
         if (tipo.equals(TipoIngresso.MEIA)) {
             return quantidade <= this.ingressosMeia;
