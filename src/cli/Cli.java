@@ -56,13 +56,13 @@ public class Cli {
         System.out.println("12 - Exibir último ingresso vendido;");
     }
 
-    private static void exibirIngresso(Ingresso ingresso) {
+    /*private static void exibirIngresso(Ingresso ingresso) {
         if (ingresso == null) {
             System.out.println("Nenhum ingresso foi vendido!");
         } else {
             System.out.println(ingresso);
         }
-    }
+    }*/
 
     private static Ingresso venderIngresso(Evento evento, Scanner leitor) {
         if (evento == null) {
