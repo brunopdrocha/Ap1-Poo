@@ -1,16 +1,19 @@
 package entidades.evento;
 
+import java.time.LocalDate;
+
 import entidades.ingresso.TipoIngresso;
 
 public abstract class Evento {
     private String nome;
-    private String data;
+    private LocalDate data;
     private String local;
     private int ingressosMeia;
     private int ingressosInteira;
     private double precoCheio;
 
-    public Evento(String nome, String data, String local, int ingressosMeia, int ingressosInteira, double precoCheio) {
+
+    public Evento(String nome, LocalDate data, String local, int ingressosMeia, int ingressosInteira, double precoCheio) {
         this.nome = nome;
         this.data = data;
         this.local = local;
@@ -31,9 +34,9 @@ public abstract class Evento {
         return this.ingressosInteira + this.ingressosMeia;
     }
 
-   
 
-    public void setData(String data) {
+
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
@@ -43,7 +46,7 @@ public abstract class Evento {
         this.local = local;
     }
 
-    
+
     public boolean isIngressoDisponivel(TipoIngresso tipo, int quantidade) {
         if (tipo.equals(TipoIngresso.MEIA)) {
             return quantidade <= this.ingressosMeia;
