@@ -1,5 +1,6 @@
 package dao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import entidades.evento.Evento;
@@ -11,7 +12,7 @@ public class EventoDao {
     private ArrayList<Evento> eventos = new ArrayList<>();
 
     // Adiconar Exposicao
-    public void addEvento(String nome, String data, String local, int ingressosMeia, int ingressosInteira,
+    public void addEvento(String nome, LocalDate data, String local, int ingressosMeia, int ingressosInteira,
             double precoCheio, int faixaEtariaMinima, int duracaoDias) {
         eventos.add(new Exposicao(nome, data, local, ingressosMeia, ingressosInteira, precoCheio, faixaEtariaMinima,
                 duracaoDias));
@@ -19,13 +20,13 @@ public class EventoDao {
     }
 
     // Adicionar Show
-    public void addEvento(String nome, String data, String local, int ingressosMeia, int ingressosInteira,
+    public void addEvento(String nome, LocalDate data, String local, int ingressosMeia, int ingressosInteira,
             double precoCheio, String artista, String genero) {
         eventos.add(new Show(nome, data, local, ingressosMeia, ingressosInteira, precoCheio, artista, genero));
     }
 
     // Adicionar Jogo
-    public void addEvento(String nome, String data, String local, int ingressosMeia, int ingressosInteira,
+    public void addEvento(String nome, LocalDate data, String local, int ingressosMeia, int ingressosInteira,
             double precoCheio, String esporte, String casa, String adv) {
         eventos.add(new Jogo(nome, data, local, ingressosMeia, ingressosInteira, precoCheio, esporte, casa, adv));
     }
@@ -35,7 +36,7 @@ public class EventoDao {
         System.out.println("Evento " + nome + " foi removido");
     }
 
-    public void atualizarEvento(String nome, String novoData, String novoLocal) {
+    public void atualizarEvento(String nome, LocalDate novoData, String novoLocal) {
         for (Evento evento : eventos) {
             if (evento.getNome().equals(nome)) {
                 evento.setData(novoData);
