@@ -9,6 +9,7 @@ public abstract class Evento {
     private int ingressosMeia;
     private int ingressosInteira;
     private double precoCheio;
+    
 
     public Evento(String nome, String data, String local, int ingressosMeia, int ingressosInteira, double precoCheio) {
         this.nome = nome;
@@ -31,7 +32,7 @@ public abstract class Evento {
         return this.ingressosInteira + this.ingressosMeia;
     }
 
-   
+
 
     public void setData(String data) {
         this.data = data;
@@ -43,7 +44,7 @@ public abstract class Evento {
         this.local = local;
     }
 
-    
+
     public boolean isIngressoDisponivel(TipoIngresso tipo, int quantidade) {
         if (tipo.equals(TipoIngresso.MEIA)) {
             return quantidade <= this.ingressosMeia;
