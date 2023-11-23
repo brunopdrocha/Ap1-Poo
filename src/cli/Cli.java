@@ -55,6 +55,7 @@ public class Cli {
                     break;
                 default:
                     leitor.close();
+                    Evento.salvarEventosEmArquivo();
                     System.out.println("Volte sempre!");
                     return 0;
             }
