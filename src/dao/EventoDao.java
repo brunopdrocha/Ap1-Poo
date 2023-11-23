@@ -14,6 +14,7 @@ import entidades.evento.Jogo;
 public class EventoDao {
     private ArrayList<Evento> eventos = new ArrayList<>();
 
+
     // Adiconar Exposicao
     public void addEvento(String nome, LocalDate data, String local, int ingressosMeia, int ingressosInteira,
             double precoCheio, int faixaEtariaMinima, int duracaoDias) {
@@ -57,20 +58,24 @@ public class EventoDao {
     }
 
     // Exibir Evento Expecifico
-    public void buscaEvento(String nome) {
-        if (eventos == null) {
+    public Evento buscaEvento(String nome) {
+        if (eventos.isEmpty()) {
             System.out.println("Nenhum evento cadastrado");
-
+            return null;
         }
 
         for (Evento evento : eventos) {
             if (evento.getNome().equals(nome)) {
                 System.out.println("Evento encontrado:");
                 System.out.println(evento);
-                break; // Como o evento foi encontrado, podemos interromper a busca
+                return evento; // Retorna o evento encontrado
             }
         }
+
+        System.out.println("Evento não encontrado");
+        return null; // Retorna null se o evento não for encontrado
     }
+
 
     // Método para salvar eventos em um arquivo
     public void salvarEventosEmArquivo() {
@@ -87,4 +92,5 @@ public class EventoDao {
             e.printStackTrace();
         }
     }
+
 }
