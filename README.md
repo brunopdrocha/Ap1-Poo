@@ -1,6 +1,12 @@
 # Anotacoes do projeto
-
+    
 Anotacoes para o projeto de AP1 DE Programacao a Orientacao a Objeto.
+## INTEGRANTES 
+- Mateus Norcia 
+- Bruno Xavier
+- Bruno Pilão
+- Ian Amoedo
+- Thiago Brandão
 
 # Funcionalidade do Projeto
 
