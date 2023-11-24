@@ -1,6 +1,6 @@
 # Anotacoes do projeto
     
-Anotacoes para o projeto de AP1 DE Programacao a Orientacao a Objeto.
+Anotacoes para o projeto de AP1 e AP2 DE Programacao a Orientacao a Objeto.
 ## INTEGRANTES 
 - Mateus Norcia 
 - Bruno Xavier
