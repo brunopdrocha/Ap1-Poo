@@ -14,7 +14,6 @@ import entidades.evento.Jogo;
 public class EventoDao {
     private ArrayList<Evento> eventos = new ArrayList<>();
 
-
     // Adiconar Exposicao
     public void addEvento(String nome, LocalDate data, String local, int ingressosMeia, int ingressosInteira,
             double precoCheio, int faixaEtariaMinima, int duracaoDias) {
@@ -37,6 +36,7 @@ public class EventoDao {
 
     public void removeEvento(String nome) {
         eventos.removeIf(eventos -> eventos.getNome().equals(nome));
+
         System.out.println("Evento " + nome + " foi removido");
     }
 
@@ -76,15 +76,15 @@ public class EventoDao {
         return null; // Retorna null se o evento não for encontrado
     }
 
-
     // Método para salvar eventos em um arquivo
     public void salvarEventosEmArquivo() {
         String nomeArquivo = "eventos.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) {
             for (Evento evento : eventos) {
-                writer.write(evento.toString());  // Certifique-se de ter o método toString() implementado nas classes Evento, Exposicao, Show, Jogo
-                writer.newLine();  // Adiciona uma nova linha após cada evento
+                writer.write(evento.toString()); // Certifique-se de ter o método toString() implementado nas classes
+                                                 // Evento, Exposicao, Show, Jogo
+                writer.newLine(); // Adiciona uma nova linha após cada evento
             }
             System.out.println("Eventos salvos em " + nomeArquivo);
         } catch (IOException e) {

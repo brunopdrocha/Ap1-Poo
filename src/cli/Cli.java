@@ -32,10 +32,10 @@ public class Cli {
                     System.out.println("Evento cadastrado com sucesso!");
                     break;
                 case 2:
-                    // exibirEvento(eventoDao);
+                    atualizarEvento(leitor, Evento);
                     break;
                 case 3:
-                  //exibirIngressosRestantes(null, leitor);
+                    // exibirIngressosRestantes(null, leitor);
                     break;
                 case 4:
                     venderIngresso(Evento, leitor);
@@ -65,7 +65,7 @@ public class Cli {
     private static void menu() {
         System.out.println("\nDigite a opção desejada ou qualquer outro valor para sair:");
         System.out.println("1 - Cadastrar um novo evento;");
-        System.out.println("2 - Exibir evento cadastrado;");
+        System.out.println("2 - Atualiza data e local sem perder as outras informacoes;");
         System.out.println("3 - Exibir ingressos restantes;");
         System.out.println("4 - Vender um ingresso;");
         System.out.println("5 - Busca Evento Pelo nome;");
@@ -99,81 +99,139 @@ public class Cli {
             return;
         }
 
-        TipoIngresso tipoIngresso;
-        int quantidade;
-        Ingresso ingresso;
+        TipoIngresso tipoIngresso = null;
+        int quantidade = 0;
+        Ingresso ingresso = null;
 
         System.out.print("Informe o tipo do ingresso (meia ou inteira): ");
         String tipo = leitor.next();
-        if (!(tipo.equals("meia") || tipo.equals("inteira"))) {
+        if (tipo.equals("meia") || tipo.equals("inteira")) {
+            if (tipo.equals("meia")) {
+                tipoIngresso = TipoIngresso.MEIA;
+            } else {
+                tipoIngresso = TipoIngresso.INTEIRA;
+            }
+        } else {
             System.out.println("Tipo selecionado inválido!");
             return;
         }
 
-        tipoIngresso = tipo.equals("meia") ? TipoIngresso.MEIA : TipoIngresso.INTEIRA;
-
         System.out.print("Informe quantos ingressos você deseja: ");
-        quantidade = leitor.nextInt();
-
-        if (!eventoEscolhido.isIngressoDisponivel(tipoIngresso, quantidade)) {
-            System.out.println("Não há ingressos disponíveis desse tipo!");
+        if (leitor.hasNextInt()) {
+            quantidade = leitor.nextInt();
+            if (quantidade <= 0) {
+                System.out.println("A quantidade deve ser maior que zero!");
+                return;
+            }
+        } else {
+            System.out.println("Quantidade inválida!");
             return;
         }
 
-        if (eventoEscolhido instanceof Jogo) {
-            int percentual;
-            System.out.print("Informe o percentual do desconto de sócio torcedor: ");
-            percentual = leitor.nextInt();
-            ingresso = new IngJogo(eventoEscolhido, tipoIngresso, percentual);
-        } else if (eventoEscolhido instanceof Show) {
-            String localizacao;
-            System.out.print("Informe a localização do ingresso (pista ou camarote): ");
-            localizacao = leitor.next();
-            if (!(localizacao.equals("pista") || localizacao.equals("camarote"))) {
-                System.out.println("Localização inválida!");
-                return;
+        if (eventoEscolhido.isIngressoDisponivel(tipoIngresso, quantidade)) {
+            if (eventoEscolhido instanceof Jogo) {
+                int percentual = 0;
+                System.out.print("Informe o percentual do desconto de sócio torcedor: ");
+                if (leitor.hasNextInt()) {
+                    percentual = leitor.nextInt();
+                } else {
+                    System.out.println("Percentual inválido!");
+                    return;
+                }
+                ingresso = new IngJogo(eventoEscolhido, tipoIngresso, percentual);
+            } else if (eventoEscolhido instanceof Show) {
+                String localizacao;
+                System.out.print("Informe a localização do ingresso (pista ou camarote): ");
+                localizacao = leitor.next();
+                if (localizacao.equals("pista") || localizacao.equals("camarote")) {
+                    ingresso = new IngShow(eventoEscolhido, tipoIngresso, localizacao);
+                } else {
+                    System.out.println("Localização inválida!");
+                    return;
+                }
+            } else {
+                String desconto;
+                System.out.print("Informe se possui desconto social (s/n): ");
+                desconto = leitor.next();
+                if (desconto.equals("s") || desconto.equals("n")) {
+                    ingresso = new IngExposicao(eventoEscolhido, tipoIngresso, desconto.equals("s"));
+                } else {
+                    System.out.println("Opção inválida!");
+                    return;
+                }
             }
-            ingresso = new IngShow(eventoEscolhido, tipoIngresso, localizacao);
+
+            eventoEscolhido.venderIngresso(tipoIngresso, quantidade);
+
+            System.out.println("Ingresso vendido com sucesso!");
         } else {
-            String desconto;
-            System.out.print("Informe se possui desconto social (s/n): ");
-            desconto = leitor.next();
-            ingresso = new IngExposicao(eventoEscolhido, tipoIngresso, desconto.equals("s"));
+            System.out.println("Não há ingressos disponíveis desse tipo!");
         }
-
-        eventoEscolhido.venderIngresso(tipoIngresso, quantidade);
-
-        System.out.println("Ingresso vendido com sucesso!");
     }
 
-   /*  private static void exibirIngressosRestantes(EventoDao eventoDao, Scanner leitor) {
-        System.out.println("Informe o nome do evento:");
-        String nomeEvento = leitor.next();
+    /*
+     * private static void exibirIngressosRestantes(EventoDao eventoDao, Scanner
+     * leitor) {
+     * System.out.println("Informe o nome do evento:");
+     * String nomeEvento = leitor.next();
+     *
+     * Evento evento = eventoDao.buscaEvento(nomeEvento);
+     *
+     * if (evento == null) {
+     * System.out.println("Evento não encontrado!");
+     * return;
+     * }
+     *
+     * System.out.println("Informe o tipo de ingresso (meia ou inteira):");
+     * String tipoIngresso = leitor.next();
+     *
+     * if (!(tipoIngresso.equals("meia") || tipoIngresso.equals("inteira"))) {
+     * System.out.println("Tipo de ingresso inválido!");
+     * return;
+     * }
+     *
+     * int ingressosRestantes = evento.getIngressosRestantes(tipoIngresso);
+     *
+     * if (ingressosRestantes == -1) {
+     * System.out.println("Tipo de ingresso não encontrado para este evento!");
+     * } else {
+     * System.out.println("Ingressos " + tipoIngresso.toUpperCase() + " restantes: "
+     * + ingressosRestantes);
+     * }
+     * }
+     */
 
-        Evento evento = eventoDao.buscaEvento(nomeEvento);
+    private static void atualizarEvento(Scanner leitor, EventoDao eventoDao) {
+        System.out.println("Informe o nome do evento que deseja atualizar: ");
+        String nome = leitor.next();
+
+        Evento evento = eventoDao.buscaEvento(nome);
 
         if (evento == null) {
             System.out.println("Evento não encontrado!");
             return;
         }
 
-        System.out.println("Informe o tipo de ingresso (meia ou inteira):");
-        String tipoIngresso = leitor.next();
+        System.out.println("Informe a nova data do evento (dd mm aaaa): ");
+        if (leitor.hasNextInt()) {
+            int dia = leitor.nextInt();
 
-        if (!(tipoIngresso.equals("meia") || tipoIngresso.equals("inteira"))) {
-            System.out.println("Tipo de ingresso inválido!");
-            return;
-        }
+            if (leitor.hasNextInt()) {
+                int mes = leitor.nextInt();
 
-        int ingressosRestantes = evento.getIngressosRestantes(tipoIngresso);
+                if (leitor.hasNextInt()) {
+                    int ano = leitor.nextInt();
+                    LocalDate novaData = LocalDate.of(ano, mes, dia);
 
-        if (ingressosRestantes == -1) {
-            System.out.println("Tipo de ingresso não encontrado para este evento!");
-        } else {
-            System.out.println("Ingressos " + tipoIngresso.toUpperCase() + " restantes: " + ingressosRestantes);
+                    System.out.println("Informe o novo local do evento: ");
+                    String novoLocal = leitor.next();
+
+                    eventoDao.atualizarEvento(nome, novaData, novoLocal);
+                    System.out.println("Evento atualizado com sucesso!");
+                }
+            }
         }
     }
-*/
 
     private static void exibirEvento(Scanner leitor, EventoDao eventoDao) {
         String nome;
@@ -190,60 +248,70 @@ public class Cli {
         int ingMeia, ingInteira;
         double preco;
 
-        System.out.print("Informe o nome do evento: ");
-        nome = leitor.next();
+        try {
+            System.out.print("Informe o nome do evento: ");
+            nome = leitor.next();
 
-        System.out.print("Informe o dia do evento: ");
-        int dia = leitor.nextInt();
-        System.out.print("Informe o mês do evento: ");
-        int mes = leitor.nextInt();
-        System.out.print("Informe o ano do evento: ");
-        int ano = leitor.nextInt();
-        data = LocalDate.of(ano, mes, dia);
+            System.out.print("Informe o dia do evento: ");
+            int dia = leitor.nextInt();
+            System.out.print("Informe o mês do evento: ");
+            int mes = leitor.nextInt();
+            System.out.print("Informe o ano do evento: ");
+            int ano = leitor.nextInt();
+            data = LocalDate.of(ano, mes, dia);
 
-        System.out.print("Informe o local do evento: ");
-        local = leitor.next();
-        System.out.print("Informe o número de entradas tipo meia: ");
-        ingMeia = leitor.nextInt();
-        System.out.print("Informe o número de entradas tipo inteira: ");
-        ingInteira = leitor.nextInt();
-        System.out.print("Informe o preço cheio do evento: ");
-        preco = leitor.nextDouble();
-        System.out.print("Informe o tipo do evento (show, jogo ou exposição): ");
-        tipo = leitor.next();
+            System.out.print("Informe o local do evento: ");
+            local = leitor.next();
+            System.out.print("Informe o número de entradas tipo meia: ");
+            ingMeia = leitor.nextInt();
+            System.out.print("Informe o número de entradas tipo inteira: ");
+            ingInteira = leitor.nextInt();
+            System.out.print("Informe o preço cheio do evento: ");
+            preco = leitor.nextDouble();
+            System.out.print("Informe o tipo do evento (show, jogo ou exposição): ");
+            tipo = leitor.next();
 
-        if (tipo.equals("show")) {
-            String artista, genero;
+            if (tipo.equals("show")) {
+                String artista, genero;
 
-            System.out.print("Informe o nome do artista: ");
-            artista = leitor.next();
-            System.out.print("Informe o gênero do show: ");
-            genero = leitor.next();
+                System.out.print("Informe o nome do artista: ");
+                artista = leitor.next();
+                System.out.print("Informe o gênero do show: ");
+                genero = leitor.next();
 
-            eventoDao.addEvento(nome, data, local, ingMeia, ingInteira, preco, artista, genero);
-        }
+                eventoDao.addEvento(nome, data, local, ingMeia, ingInteira, preco, artista, genero);
+            } else if (tipo.equals("jogo")) {
+                String esporte, casa, adversario;
 
-        if (tipo.equals("jogo")) {
-            String esporte, casa, adversario;
+                System.out.print("Informe o esporte: ");
+                esporte = leitor.next();
+                System.out.print("Informe a equipe da casa: ");
+                casa = leitor.next();
+                System.out.print("Informe a equipe adversária: ");
+                adversario = leitor.next();
 
-            System.out.print("Informe o esporte: ");
-            esporte = leitor.next();
-            System.out.print("Informe a equipe da casa: ");
-            casa = leitor.next();
-            System.out.print("Informe a equipe adversária: ");
-            adversario = leitor.next();
+                eventoDao.addEvento(nome, data, local, ingMeia, ingInteira, preco, esporte, casa, adversario);
+            } else if (tipo.equals("exposicao")) {
+                int idadeMin, duracao;
 
-            eventoDao.addEvento(nome, data, local, ingMeia, ingInteira, preco, esporte, casa, adversario);
-        }
-        if (tipo.equals("exposicao")) {
-            int idadeMin, duracao;
+                System.out.print("Informe a idade mínima para entrar na exposição: ");
+                idadeMin = leitor.nextInt();
+                System.out.print("Informe a duração em dias da exposição: ");
+                duracao = leitor.nextInt();
 
-            System.out.print("Informe a idade mínima para entrar na exposição: ");
-            idadeMin = leitor.nextInt();
-            System.out.print("Informe a duração em dias da exposição: ");
-            duracao = leitor.nextInt();
+                eventoDao.addEvento(nome, data, local, ingMeia, ingInteira, preco, idadeMin, duracao);
+            } else {
+                System.out.println("Tipo de evento inválido.");
+            }
 
-            eventoDao.addEvento(nome, data, local, ingMeia, ingInteira, preco, idadeMin, duracao);
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("Erro: Entrada inválida. Certifique-se de fornecer o tipo correto de dados.");
+        } catch (java.time.DateTimeException e) {
+            System.out.println("Erro: Data inválida. Certifique-se de fornecer uma data válida.");
+        } catch (Exception e) {
+            System.out.println("Erro desconhecido: " + e.getMessage());
+        } finally {
+            leitor.nextLine(); // Limpar o buffer do Scanner.
         }
     }
 
