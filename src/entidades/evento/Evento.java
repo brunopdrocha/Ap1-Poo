@@ -65,6 +65,10 @@ public abstract class Evento {
         }
     }
 
+    public void IngressosRestantes(){
+       System.out.println("Existem" + " " + this.ingressosInteira + " " + "ingressos inteiros restantes para esse eveneto e " + " " + this.ingressosMeia + " " + "ingressos meia"); 
+    }
+
     @Override
     public String toString() {
         return this.nome + " - " + this.data + " - " + this.local;
