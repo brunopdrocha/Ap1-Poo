@@ -57,6 +57,21 @@ public class EventoDao {
         }
     }
 
+    public Evento encontraEvento(String nome){
+        if (eventos.isEmpty()){
+            System.out.println("Nenhum evento cadastrado");
+            return null;
+        }
+        for (Evento evento : eventos){
+            if (evento.getNome().equals(nome)) {
+                System.out.println("Evento encontrado:");
+                return evento;
+            }
+
+        }
+        return null;
+    }
+
     // Exibir Evento Expecifico
     public Evento buscaEvento(String nome) {
         if (eventos.isEmpty()) {
@@ -76,15 +91,14 @@ public class EventoDao {
         return null; // Retorna null se o evento não for encontrado
     }
 
-    // Método para salvar eventos em um arquivo
+    // salvar eventos em um arquivo
     public void salvarEventosEmArquivo() {
         String nomeArquivo = "eventos.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) {
             for (Evento evento : eventos) {
-                writer.write(evento.toString()); // Certifique-se de ter o método toString() implementado nas classes
-                                                 // Evento, Exposicao, Show, Jogo
-                writer.newLine(); // Adiciona uma nova linha após cada evento
+                writer.write(evento.toString()); 
+                writer.newLine(); 
             }
             System.out.println("Eventos salvos em " + nomeArquivo);
         } catch (IOException e) {

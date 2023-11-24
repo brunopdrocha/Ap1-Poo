@@ -16,8 +16,6 @@ import entidades.ingresso.TipoIngresso;
 public class Cli {
     public static int executar() {
         EventoDao Evento = new EventoDao();
-        // Evento novoEvento = null;
-        // Ingresso ingresso = null;
         Scanner leitor = new Scanner(System.in);
         int opcao;
 
@@ -35,23 +33,19 @@ public class Cli {
                     atualizarEvento(leitor, Evento);
                     break;
                 case 3:
-                    // exibirIngressosRestantes(null, leitor);
+                    ExibirIngressosRestantes(Evento, leitor);
                     break;
                 case 4:
                     venderIngresso(Evento, leitor);
                     break;
                 case 5:
                     exibirEvento(leitor, Evento);
-
                     break;
                 case 6:
                     removeEvento(leitor, Evento);
-
                     break;
-
                 case 7:
                     exibeEvento(Evento);
-
                     break;
                 default:
                     leitor.close();
@@ -72,17 +66,6 @@ public class Cli {
         System.out.println("6 - Remove Evento Pelo nome;");
         System.out.println("7 - Exibe todos  os Eventos;");
     }
-    /*
-     * ----------1-------------------
-     * private static void exibirIngresso(Ingresso ingresso) {
-     * if (ingresso == null) {
-     * System.out.println("Nenhum ingresso foi vendido!");
-     * } else {
-     * System.out.println(ingresso);
-     * }
-     * }
-     * ----------------------1----------------------
-     */
 
     private static void venderIngresso(EventoDao eventoDao, Scanner leitor) {
         if (eventoDao == null) {
@@ -168,38 +151,6 @@ public class Cli {
             System.out.println("Não há ingressos disponíveis desse tipo!");
         }
     }
-
-    /*
-     * private static void exibirIngressosRestantes(EventoDao eventoDao, Scanner
-     * leitor) {
-     * System.out.println("Informe o nome do evento:");
-     * String nomeEvento = leitor.next();
-     *
-     * Evento evento = eventoDao.buscaEvento(nomeEvento);
-     *
-     * if (evento == null) {
-     * System.out.println("Evento não encontrado!");
-     * return;
-     * }
-     *
-     * System.out.println("Informe o tipo de ingresso (meia ou inteira):");
-     * String tipoIngresso = leitor.next();
-     *
-     * if (!(tipoIngresso.equals("meia") || tipoIngresso.equals("inteira"))) {
-     * System.out.println("Tipo de ingresso inválido!");
-     * return;
-     * }
-     *
-     * int ingressosRestantes = evento.getIngressosRestantes(tipoIngresso);
-     *
-     * if (ingressosRestantes == -1) {
-     * System.out.println("Tipo de ingresso não encontrado para este evento!");
-     * } else {
-     * System.out.println("Ingressos " + tipoIngresso.toUpperCase() + " restantes: "
-     * + ingressosRestantes);
-     * }
-     * }
-     */
 
     private static void atualizarEvento(Scanner leitor, EventoDao eventoDao) {
         System.out.println("Informe o nome do evento que deseja atualizar: ");
@@ -311,7 +262,7 @@ public class Cli {
         } catch (Exception e) {
             System.out.println("Erro desconhecido: " + e.getMessage());
         } finally {
-            leitor.nextLine(); // Limpar o buffer do Scanner.
+            leitor.nextLine();
         }
     }
 
@@ -328,5 +279,20 @@ public class Cli {
 
         eventoDao.mostraEvento();
 
+    }
+
+    public static void ExibirIngressosRestantes(EventoDao evDao, Scanner sc){
+        if (evDao == null) {
+            System.out.println("Evento ainda não foi cadastrado!");
+        }
+
+        System.out.println("Digite o nome de evento que deseja saber a qtd de ingressos restantes: ");
+        String nomeEvento = sc.next();
+        Evento eventoEscolhido = evDao.encontraEvento(nomeEvento);
+
+        if (eventoEscolhido == null) {
+            System.out.println("Evento não encontrado!");
+        }
+        eventoEscolhido.IngressosRestantes();
     }
 }
